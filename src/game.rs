@@ -1,59 +1,85 @@
-use crate::board::Board;
+use crate::game_board::GameBoard;
 use crate::player::Player;
+use crate::types::{GameError, Symbol};
 use rand::Rng;
 
 pub struct Game {
-    pub board_history: Vec<Board>,
-    pub current_board: Board,
-    pub turn_history: Vec<Player>,
-    pub players: Vec<Player>,
+    board: GameBoard,
+    players: Vec<Player>,
+    current_player_idx: usize,
+    max_players: usize,
 }
 
 impl Game {
-    pub fn new(board_size: u32) -> Self {
-        let board = Board::new(board_size);
+    pub fn new(board_size: usize, max_players: usize) -> Self {
         Self {
-            board_history: vec![board.clone()],
-            current_board: board.clone(),
-            turn_history: Vec::new(),
+            board: GameBoard::new(board_size),
             players: Vec::new(),
+            current_player_idx: 0,
+            max_players,
         }
     }
 
-    pub fn add_player(&mut self, name: String, symbol: char) {
-        self.players.push(Player::new(symbol, name));
+    pub fn add_player(&mut self, player: &Player) -> Result<(), GameError> {
+        if self.players.len() >= self.max_players {
+            return Err(GameError::MaxPlayersReached);
+        }
+        self.players.push(player.clone());
+        Ok(())
+    }
+
+    pub fn current_player(&self) -> Option<&Player> {
+        if self.players.is_empty() {
+            None
+        } else {
+            Some(&self.players[self.current_player_idx])
+        }
+    }
+
+    pub fn is_over(&self) -> bool {
+        self.winner().is_some() || self.board.is_full()
+    }
+
+    pub fn winner(&self) -> Option<&Player> {
+        if let Some((row, col)) = self.board.has_winning_streak(3) {
+            if let Some(symbol) = self.board.get_cell((row, col)) {
+                return self.players.iter().find(|p| p.symbol() == symbol);
+            }
+        }
+        None
     }
 
     pub fn randomize_turn(&mut self) {
-        // randomize the turn, players vec
-        let mut new_player_order: Vec<Player> = vec![];
-
-        while self.players.len() > 0 {
-            let mut rng = rand::thread_rng();
-            let random_index = rng.gen_range(0..self.players.len());
-            let player = self.players[random_index].clone();
-            self.players.remove(random_index);
-            new_player_order.push(player);
+        if !self.players.is_empty() {
+            self.current_player_idx = rand::thread_rng().gen_range(0..self.players.len());
         }
-
-        self.players = new_player_order;
     }
 
-    pub fn get_next_player(&self) -> Option<&Player> {
-        // if no players, return None
-        if self.players.len() == 0 {
-            return None;
+    pub fn prepare_next_round(&mut self) {
+        self.board = GameBoard::new(self.board.size());
+        self.randomize_turn();
+    }
+
+    pub fn board(&self) -> &GameBoard {
+        &self.board
+    }
+
+    pub fn make_move(&mut self, pos: (usize, usize)) -> Result<(), GameError> {
+        let current_player = self.current_player().ok_or(GameError::InvalidMove)?;
+        self.board.apply_move(pos, current_player.symbol().clone())?;
+        self.current_player_idx = (self.current_player_idx + 1) % self.players.len();
+        Ok(())
+    }
+
+    pub fn is_move_valid(&self, pos: (usize, usize)) -> bool {
+        if let Some(current_player) = self.current_player() {
+            self.board.get_cell(pos).is_none() && pos.0 < self.board.size() && pos.1 < self.board.size()
+        } else {
+            false
         }
+    }
 
-        // if no available moves, return None
-        if self.current_board.get_empty_coordinates().len() == 0 {
-            return None;
-        }
-
-        // return next player, using board history as index
-        let current_player_index = self.board_history.len() % self.players.len();
-        let next_player_index = (current_player_index + 1) % self.players.len();
-
-        Some(&self.players[next_player_index])
+    pub fn players(&self) -> &Vec<Player> {
+        &self.players
     }
 }
