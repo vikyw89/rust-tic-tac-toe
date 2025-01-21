@@ -1,6 +1,6 @@
-use crate::game::Game;
-use crate::player::Player;
-use crate::types::{Difficulty, Symbol};
+use rust_tic_tac_toe::game::Game;
+use rust_tic_tac_toe::player::Player;
+use rust_tic_tac_toe::types::{Difficulty, Symbol};
 use std::collections::HashMap;
 
 #[derive(Debug, Default)]
@@ -81,13 +81,13 @@ fn test_three_player_ai_performance() {
             );
             let player2 = Player::new(
                 format!("AI2_{:?}", ai2_diff),
-                Symbol::random_unique(&[player1.symbol().clone()]).unwrap(),
+                Symbol::random_unique(&[player1.symbol()]).unwrap(),
                 false,
                 Some(*ai2_diff),
             );
             let player3 = Player::new(
                 format!("AI3_{:?}", ai3_diff),
-                Symbol::random_unique(&[player1.symbol().clone(), player2.symbol().clone()])
+                Symbol::random_unique(&[player1.symbol(), player2.symbol()])
                     .unwrap(),
                 false,
                 Some(*ai3_diff),

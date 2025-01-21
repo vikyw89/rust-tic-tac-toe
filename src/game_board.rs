@@ -28,10 +28,10 @@ impl GameBoard {
         // Check rows
         for row in 0..self.size {
             for col in 0..=self.size - streak_length {
-                if let Some(symbol) = self.cells[row][col].clone() {
+                if let Some(symbol) = self.cells[row][col] {
                     let mut is_streak = true;
                     for i in 1..streak_length {
-                        if self.cells[row][col + i] != Some(symbol.clone()) {
+                        if self.cells[row][col + i] != Some(symbol) {
                             is_streak = false;
                             break;
                         }
@@ -46,10 +46,10 @@ impl GameBoard {
         // Check columns
         for col in 0..self.size {
             for row in 0..=self.size - streak_length {
-                if let Some(symbol) = self.cells[row][col].clone() {
+                if let Some(symbol) = self.cells[row][col] {
                     let mut is_streak = true;
                     for i in 1..streak_length {
-                        if self.cells[row + i][col] != Some(symbol.clone()) {
+                        if self.cells[row + i][col] != Some(symbol) {
                             is_streak = false;
                             break;
                         }
@@ -64,10 +64,10 @@ impl GameBoard {
         // Check diagonals (top-left to bottom-right)
         for row in 0..=self.size - streak_length {
             for col in 0..=self.size - streak_length {
-                if let Some(symbol) = self.cells[row][col].clone() {
+                if let Some(symbol) = self.cells[row][col] {
                     let mut is_streak = true;
                     for i in 1..streak_length {
-                        if self.cells[row + i][col + i] != Some(symbol.clone()) {
+                        if self.cells[row + i][col + i] != Some(symbol) {
                             is_streak = false;
                             break;
                         }
@@ -82,10 +82,10 @@ impl GameBoard {
         // Check diagonals (top-right to bottom-left)
         for row in 0..=self.size - streak_length {
             for col in (streak_length - 1)..self.size {
-                if let Some(symbol) = self.cells[row][col].clone() {
+                if let Some(symbol) = self.cells[row][col] {
                     let mut is_streak = true;
                     for i in 1..streak_length {
-                        if self.cells[row + i][col - i] != Some(symbol.clone()) {
+                        if self.cells[row + i][col - i] != Some(symbol) {
                             is_streak = false;
                             break;
                         }
@@ -172,7 +172,7 @@ impl GameBoard {
             None
         } else {
             let (row, col) = position;
-            self.cells[row][col].clone()
+            self.cells[row][col]
         }
     }
 
@@ -221,7 +221,7 @@ impl GameBoard {
             for cell in row {
                 if let Some(symbol) = cell {
                     if !symbols.contains(symbol) {
-                        symbols.push(symbol.clone());
+                        symbols.push(*symbol);
                     }
                 }
             }
@@ -237,10 +237,10 @@ impl GameBoard {
             for col in 0..self.size {
                 if self.cells[row][col].is_none() {
                     // Try the move
-                    self.cells[row][col] = Some(symbol.clone());
+                    self.cells[row][col] = Some(symbol);
 
                     // Check if it's a winning move
-                    if let Some(_) = self.has_winning_streak(3) {
+                    if self.has_winning_streak(3).is_some() {
                         positions.push((row, col));
                     }
 

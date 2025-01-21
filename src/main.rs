@@ -24,7 +24,7 @@ fn main() {
         let name = ui.get_player_name(i, is_human);
 
         // Get previous players' symbols to avoid duplicates
-        let used_symbols: Vec<Symbol> = game.players().iter().map(|p| p.symbol().clone()).collect();
+        let used_symbols: Vec<Symbol> = game.players().iter().map(|p| p.symbol()).collect();
 
         let difficulty = if !is_human {
             Some(ui.get_ai_difficulty())

@@ -19,7 +19,7 @@ impl Player {
         let ai = if !is_human {
             Some(AI::new(
                 difficulty.unwrap_or(Difficulty::Medium),
-                symbol.clone(),
+                symbol,
             ))
         } else {
             None

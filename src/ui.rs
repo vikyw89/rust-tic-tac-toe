@@ -8,6 +8,12 @@ pub struct UI {
     // Add fields as necessary
 }
 
+impl Default for UI {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl UI {
     pub fn new() -> Self {
         Self {
@@ -196,7 +202,7 @@ impl UI {
     }
 
     fn parse_move(&self, input: &str) -> Option<(usize, usize)> {
-        let coords: Vec<&str> = input.trim().split_whitespace().collect();
+        let coords: Vec<&str> = input.split_whitespace().collect();
         if coords.len() != 2 {
             return None;
         }

@@ -67,7 +67,7 @@ impl Game {
     pub fn make_move(&mut self, pos: (usize, usize)) -> Result<(), GameError> {
         let current_player = self.current_player().ok_or(GameError::InvalidMove)?;
         self.board
-            .apply_move(pos, current_player.symbol().clone())?;
+            .apply_move(pos, current_player.symbol())?;
         self.current_player_idx = (self.current_player_idx + 1) % self.players.len();
         Ok(())
     }
