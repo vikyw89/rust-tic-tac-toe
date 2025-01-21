@@ -1,4 +1,3 @@
-use crate::game::Game;
 use crate::game_board::GameBoard;
 use crate::types::{Difficulty, Symbol};
 use rand::seq::SliceRandom;

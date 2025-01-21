@@ -12,7 +12,7 @@ use types::Symbol;
 use ui::UI;
 
 fn main() {
-    let mut ui = UI::new();
+    let ui = UI::new();
 
     // Get game settings
     let (board_size, num_players) = ui.get_game_settings();

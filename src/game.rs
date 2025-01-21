@@ -1,6 +1,6 @@
 use crate::game_board::GameBoard;
 use crate::player::Player;
-use crate::types::{GameError, Symbol};
+use crate::types::GameError;
 use rand::Rng;
 
 pub struct Game {
