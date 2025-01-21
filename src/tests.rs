@@ -32,7 +32,11 @@ impl GameStats {
     fn print_summary(&self) {
         println!("\nGame Statistics:");
         println!("Total Games: {}", self.total_games);
-        println!("Total Draws: {} ({:.1}%)", self.draws, (self.draws as f64 / self.total_games as f64) * 100.0);
+        println!(
+            "Total Draws: {} ({:.1}%)",
+            self.draws,
+            (self.draws as f64 / self.total_games as f64) * 100.0
+        );
         println!("\nWins by Player:");
         let mut wins: Vec<_> = self.wins.iter().collect();
         wins.sort_by(|a, b| b.1.cmp(a.1));
@@ -83,7 +87,8 @@ fn test_three_player_ai_performance() {
             );
             let player3 = Player::new(
                 format!("AI3_{:?}", ai3_diff),
-                Symbol::random_unique(&[player1.symbol().clone(), player2.symbol().clone()]).unwrap(),
+                Symbol::random_unique(&[player1.symbol().clone(), player2.symbol().clone()])
+                    .unwrap(),
                 false,
                 Some(*ai3_diff),
             );

@@ -1,8 +1,8 @@
-use std::io::{self, Write};
-use std::ops::RangeInclusive;
 use crate::game::Game;
 use crate::game_board::GameBoard;
-use crate::types::{GameError, Difficulty};
+use crate::types::{Difficulty, GameError};
+use std::io::{self, Write};
+use std::ops::RangeInclusive;
 
 pub struct UI {
     // Add fields as necessary
@@ -18,25 +18,20 @@ impl UI {
     pub fn get_game_settings(&self) -> (usize, usize) {
         println!("\nWelcome to Tic Tac Toe!");
         println!("------------------------");
-        
-        let board_size = self.get_number_input(
-            "Enter board size (default: 3): ",
-            3,
-            3..=10
-        );
 
-        let num_players = self.get_number_input(
-            "Enter number of players (default: 2): ",
-            2,
-            2..=4
-        );
+        let board_size = self.get_number_input("Enter board size (default: 3): ", 3, 3..=10);
+
+        let num_players = self.get_number_input("Enter number of players (default: 2): ", 2, 2..=4);
 
         (board_size, num_players)
     }
 
     pub fn get_player_type(&self, player_num: usize) -> bool {
         loop {
-            print!("Player {} - Enter type (1 for Human, 2 for AI) [default: 1]: ", player_num);
+            print!(
+                "Player {} - Enter type (1 for Human, 2 for AI) [default: 1]: ",
+                player_num
+            );
             io::stdout().flush().unwrap();
 
             let mut input = String::new();
@@ -61,7 +56,10 @@ impl UI {
         }
 
         loop {
-            print!("Enter name for Player {} [default: Player {}]: ", player_num, player_num);
+            print!(
+                "Enter name for Player {} [default: Player {}]: ",
+                player_num, player_num
+            );
             io::stdout().flush().unwrap();
 
             let mut input = String::new();
@@ -104,7 +102,12 @@ impl UI {
         }
     }
 
-    fn get_number_input(&self, prompt: &str, default: usize, range: RangeInclusive<usize>) -> usize {
+    fn get_number_input(
+        &self,
+        prompt: &str,
+        default: usize,
+        range: RangeInclusive<usize>,
+    ) -> usize {
         loop {
             print!("{}", prompt);
             io::stdout().flush().unwrap();
@@ -119,7 +122,11 @@ impl UI {
 
             match input.parse::<usize>() {
                 Ok(n) if range.contains(&n) => return n,
-                _ => println!("Invalid input! Please enter a number between {} and {}.", range.start(), range.end()),
+                _ => println!(
+                    "Invalid input! Please enter a number between {} and {}.",
+                    range.start(),
+                    range.end()
+                ),
             }
         }
     }
@@ -127,7 +134,11 @@ impl UI {
     pub fn display(&self, game: &Game) {
         self.display_board(game.board());
         if let Some(current) = game.current_player() {
-            println!("\nCurrent player: {} ({})", current.name(), current.symbol());
+            println!(
+                "\nCurrent player: {} ({})",
+                current.name(),
+                current.symbol()
+            );
         } else {
             println!("\nNo current player");
         }
@@ -136,20 +147,20 @@ impl UI {
     pub fn display_board(&self, board: &GameBoard) {
         let size = board.size();
         let border = "-".repeat(4 * size + 1);
-        
+
         // Print column numbers
         print!("   ");
         for col in 0..size {
             print!(" {}  ", col);
         }
         println!();
-        
+
         println!("{}", border);
-        
+
         for row in 0..size {
             // Print row number
             print!("{} |", row);
-            
+
             // Print cells
             for col in 0..size {
                 match board.get_cell((row, col)) {

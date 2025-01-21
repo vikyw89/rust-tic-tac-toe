@@ -1,13 +1,12 @@
-use std::fmt;
 use rand::seq::SliceRandom;
+use std::fmt;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Symbol(pub char);
 
 impl Symbol {
     const SYMBOLS: [char; 12] = [
-        '🐱', '🐶', '🦊', '🐰', '🐼', '🐨',
-        '🦁', '🐯', '🐸', '🦉', '🦄', '🐙'
+        '🐱', '🐶', '🦊', '🐰', '🐼', '🐨', '🦁', '🐯', '🐸', '🦉', '🦄', '🐙',
     ];
 
     pub fn random_unique(used_symbols: &[Symbol]) -> Option<Symbol> {
@@ -25,7 +24,7 @@ impl Symbol {
     pub fn next_symbol(current: &Symbol) -> Symbol {
         let symbols = ["🦁", "🐯", "🐨", "🐼", "🐸", "🦊", "🐱", "🐶"];
         let current_char = current.0;
-        
+
         // Find current symbol's index
         let mut current_idx = 0;
         for (i, &symbol) in symbols.iter().enumerate() {
@@ -34,7 +33,7 @@ impl Symbol {
                 break;
             }
         }
-        
+
         // Get next symbol (wrap around if at end)
         let next_idx = (current_idx + 1) % symbols.len();
         Symbol(symbols[next_idx].chars().next().unwrap())

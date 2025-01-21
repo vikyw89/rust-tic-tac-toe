@@ -66,14 +66,17 @@ impl Game {
 
     pub fn make_move(&mut self, pos: (usize, usize)) -> Result<(), GameError> {
         let current_player = self.current_player().ok_or(GameError::InvalidMove)?;
-        self.board.apply_move(pos, current_player.symbol().clone())?;
+        self.board
+            .apply_move(pos, current_player.symbol().clone())?;
         self.current_player_idx = (self.current_player_idx + 1) % self.players.len();
         Ok(())
     }
 
     pub fn is_move_valid(&self, pos: (usize, usize)) -> bool {
         if let Some(current_player) = self.current_player() {
-            self.board.get_cell(pos).is_none() && pos.0 < self.board.size() && pos.1 < self.board.size()
+            self.board.get_cell(pos).is_none()
+                && pos.0 < self.board.size()
+                && pos.1 < self.board.size()
         } else {
             false
         }

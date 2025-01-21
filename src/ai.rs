@@ -1,7 +1,7 @@
-use rand::seq::SliceRandom;
-use crate::types::{Difficulty, Symbol};
-use crate::game_board::GameBoard;
 use crate::game::Game;
+use crate::game_board::GameBoard;
+use crate::types::{Difficulty, Symbol};
+use rand::seq::SliceRandom;
 
 #[derive(Debug, Clone)]
 pub struct AI {
@@ -35,7 +35,7 @@ impl AI {
 
     fn smart_move(&self, board: &GameBoard) -> (usize, usize) {
         let empty_positions = board.empty_positions();
-        
+
         // If center is empty, take it (good strategy in any case)
         let center = board.size() / 2;
         if empty_positions.contains(&(center, center)) {

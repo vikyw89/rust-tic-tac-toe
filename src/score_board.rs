@@ -1,6 +1,6 @@
-use std::collections::HashMap;
-use crate::types::GameResult;
 use crate::player::Player;
+use crate::types::GameResult;
+use std::collections::HashMap;
 
 #[derive(Debug, Default)]
 pub struct PlayerStats {

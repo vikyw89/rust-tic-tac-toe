@@ -1,4 +1,4 @@
-use crate::types::{Symbol, BoardError};
+use crate::types::{BoardError, Symbol};
 
 #[derive(Debug, Clone)]
 pub struct GameBoard {
@@ -140,17 +140,21 @@ impl GameBoard {
         None
     }
 
-    pub fn record_move(&mut self, position: (usize, usize), symbol: Symbol) -> Result<(), BoardError> {
+    pub fn record_move(
+        &mut self,
+        position: (usize, usize),
+        symbol: Symbol,
+    ) -> Result<(), BoardError> {
         let (row, col) = position;
-        
+
         if row >= self.size || col >= self.size {
             return Err(BoardError::OutOfBounds);
         }
-        
+
         if self.cells[row][col].is_some() {
             return Err(BoardError::CellOccupied);
         }
-        
+
         self.cells[row][col] = Some(symbol);
         Ok(())
     }
@@ -227,25 +231,25 @@ impl GameBoard {
 
     pub fn get_winning_positions(&mut self, symbol: Symbol) -> Vec<(usize, usize)> {
         let mut positions = Vec::new();
-        
+
         // Check each empty position
         for row in 0..self.size {
             for col in 0..self.size {
                 if self.cells[row][col].is_none() {
                     // Try the move
                     self.cells[row][col] = Some(symbol.clone());
-                    
+
                     // Check if it's a winning move
                     if let Some(_) = self.has_winning_streak(3) {
                         positions.push((row, col));
                     }
-                    
+
                     // Undo the move
                     self.cells[row][col] = None;
                 }
             }
         }
-        
+
         positions
     }
 }

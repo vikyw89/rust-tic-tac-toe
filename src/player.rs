@@ -1,6 +1,6 @@
-use crate::types::{Symbol, Difficulty, PlayerError};
 use crate::ai::AI;
 use crate::game_board::GameBoard;
+use crate::types::{Difficulty, PlayerError, Symbol};
 
 #[derive(Debug, Clone)]
 pub struct Player {
@@ -10,18 +10,22 @@ pub struct Player {
 }
 
 impl Player {
-    pub fn new(name: String, symbol: Symbol, is_human: bool, difficulty: Option<Difficulty>) -> Self {
+    pub fn new(
+        name: String,
+        symbol: Symbol,
+        is_human: bool,
+        difficulty: Option<Difficulty>,
+    ) -> Self {
         let ai = if !is_human {
-            Some(AI::new(difficulty.unwrap_or(Difficulty::Medium), symbol.clone()))
+            Some(AI::new(
+                difficulty.unwrap_or(Difficulty::Medium),
+                symbol.clone(),
+            ))
         } else {
             None
         };
 
-        Self {
-            name,
-            symbol,
-            ai,
-        }
+        Self { name, symbol, ai }
     }
 
     pub fn load(_id: usize) -> Result<Self, PlayerError> {
