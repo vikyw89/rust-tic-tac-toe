@@ -47,43 +47,33 @@ Enter your move (row col): 1 1  # This will place your symbol in the center
 
 ## Project Structure
 
-The project uses a flat directory structure with modular design.
+The project follows a flat directory structure with modular design, separating the library components from executable recipes.
 
-### Core Components
+### Library Components (`src/`)
+Core game logic and components are organized as a library:
 
-#### Game (`game.rs`)
-- Manages game flow and state
-- Handles player turns and move validation
-- Checks for win conditions and draws
-- Supports multiple players
+- `lib.rs` - Library root and public exports
+- `game.rs` - Game flow and state management
+- `game_board.rs` - Board implementation and move validation
+- `player.rs` - Player traits and implementations
+- `ai.rs` - AI player logic and difficulty levels
+- `ui.rs` - User interface components
+- `types.rs` - Shared types and enums
 
-#### GameBoard (`game_board.rs`)
-- Implements a variable-sized game board (n x n)
-- Manages board state and move recording
-- Checks for winning streaks in rows, columns, and diagonals
+### Recipes (`recipes/`)
+Executable examples and implementations:
 
-#### Player (`player.rs`)
-- Represents players (human or AI)
-- Manages player attributes (name, symbol)
-- Handles player moves
-- Supports unique emoji symbols
+- `tic_tac_toe.rs` - Main game executable with CLI interface
 
-#### AI (`ai.rs`)
-- Implements computer player logic
-- Supports multiple difficulty levels (Easy, Medium, Hard)
-- Uses minimax algorithm for Hard difficulty
+### Running the Game
 
-#### UI (`ui.rs`)
-- Handles command-line interface
-- Displays game board with proper alignment
-- Processes user input
-- Shows game settings prompts
+```bash
+# Run the main game
+cargo run
 
-#### Types (`types.rs`)
-- Defines core enums and types
-- Implements error handling types
-- Manages game status and results
-- Defines difficulty levels
+# Run with release optimizations
+cargo run --release
+```
 
 ## Enums and Types
 

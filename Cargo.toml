@@ -3,5 +3,9 @@ name = "rust-tic-tac-toe"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "tic-tac-toe"
+path = "recipes/tic_tac_toe.rs"
+
 [dependencies]
 rand = "0.8.5"
