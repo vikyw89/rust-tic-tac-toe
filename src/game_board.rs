@@ -112,34 +112,6 @@ impl GameBoard {
         positions
     }
 
-    fn check_line<'a, I>(line: I, streak_length: usize) -> Option<Symbol>
-    where
-        I: Iterator<Item = Option<&'a Symbol>>,
-    {
-        let mut current_symbol = None;
-        let mut count = 0;
-
-        for cell in line {
-            match (current_symbol, cell) {
-                (None, Some(symbol)) => {
-                    current_symbol = Some(*symbol);
-                    count = 1;
-                }
-                (Some(s), Some(symbol)) if s == *symbol => {
-                    count += 1;
-                    if count >= streak_length {
-                        return Some(s);
-                    }
-                }
-                _ => {
-                    current_symbol = None;
-                    count = 0;
-                }
-            }
-        }
-        None
-    }
-
     pub fn record_move(
         &mut self,
         position: (usize, usize),

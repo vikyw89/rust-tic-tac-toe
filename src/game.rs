@@ -73,7 +73,7 @@ impl Game {
     }
 
     pub fn is_move_valid(&self, pos: (usize, usize)) -> bool {
-        if let Some(current_player) = self.current_player() {
+        if let Some(_current_player) = self.current_player() {
             self.board.get_cell(pos).is_none()
                 && pos.0 < self.board.size()
                 && pos.1 < self.board.size()

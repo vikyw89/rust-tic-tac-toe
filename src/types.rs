@@ -20,24 +20,6 @@ impl Symbol {
             .choose(&mut rand::thread_rng())
             .map(|&c| Symbol(c))
     }
-
-    pub fn next_symbol(current: &Symbol) -> Symbol {
-        let symbols = ["🦁", "🐯", "🐨", "🐼", "🐸", "🦊", "🐱", "🐶"];
-        let current_char = current.0;
-
-        // Find current symbol's index
-        let mut current_idx = 0;
-        for (i, &symbol) in symbols.iter().enumerate() {
-            if symbol.chars().next().unwrap() == current_char {
-                current_idx = i;
-                break;
-            }
-        }
-
-        // Get next symbol (wrap around if at end)
-        let next_idx = (current_idx + 1) % symbols.len();
-        Symbol(symbols[next_idx].chars().next().unwrap())
-    }
 }
 
 impl fmt::Display for Symbol {

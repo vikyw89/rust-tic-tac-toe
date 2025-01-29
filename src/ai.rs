@@ -44,7 +44,9 @@ impl AI {
         // Check for winning moves
         for pos in empty_positions.iter() {
             let mut board_clone = board.clone();
-            if board_clone.apply_move(*pos, self.symbol).is_ok() && board_clone.has_winning_streak(3).is_some() {
+            if board_clone.apply_move(*pos, self.symbol).is_ok()
+                && board_clone.has_winning_streak(3).is_some()
+            {
                 return *pos;
             }
         }
@@ -54,10 +56,12 @@ impl AI {
             let mut board_clone = board.clone();
             for symbol in board_clone.get_all_symbols() {
                 if symbol != self.symbol {
-                    if board_clone.apply_move(*pos, symbol).is_ok() && board_clone.has_winning_streak(3).is_some() {
+                    if board_clone.apply_move(*pos, symbol).is_ok()
+                        && board_clone.has_winning_streak(3).is_some()
+                    {
                         return *pos;
                     }
-                    board_clone.undo_move(*pos);
+                    let _ = board_clone.undo_move(*pos).unwrap();
                 }
             }
         }
@@ -69,7 +73,9 @@ impl AI {
                 let mut winning_paths = 0;
                 for next_pos in board_clone.empty_positions() {
                     let mut next_board = board_clone.clone();
-                    if next_board.apply_move(next_pos, self.symbol).is_ok() && next_board.has_winning_streak(3).is_some() {
+                    if next_board.apply_move(next_pos, self.symbol).is_ok()
+                        && next_board.has_winning_streak(3).is_some()
+                    {
                         winning_paths += 1;
                     }
                 }

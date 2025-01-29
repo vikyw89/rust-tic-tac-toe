@@ -1,6 +1,6 @@
 use crate::game::Game;
 use crate::game_board::GameBoard;
-use crate::types::{Difficulty, GameError};
+use crate::types::Difficulty;
 use std::io::{self, Write};
 use std::ops::RangeInclusive;
 
@@ -177,10 +177,6 @@ impl UI {
             println!();
             println!("{}", border);
         }
-    }
-
-    pub fn display_error(&self, error: &GameError) {
-        println!("Error: {}", error);
     }
 
     pub fn get_player_move(&self, game: &mut Game) -> (usize, usize) {

@@ -1,15 +1,7 @@
-mod ai;
-mod game;
-mod game_board;
-mod player;
-mod score_board;
-mod types;
-mod ui;
-
-use game::Game;
-use player::Player;
-use types::Symbol;
-use ui::UI;
+use rust_tic_tac_toe::game::Game;
+use rust_tic_tac_toe::player::Player;
+use rust_tic_tac_toe::types::Symbol;
+use rust_tic_tac_toe::ui::UI;
 
 fn main() {
     let ui = UI::new();
